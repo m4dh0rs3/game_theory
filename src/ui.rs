@@ -36,9 +36,9 @@ impl Component for Game {
                 };
             },
             GameMsg::Payout => {
-                self.history.push(self.bank.clone());
-
                 self.bank.payout();
+                
+                self.history.push(self.bank.clone());
             },
         }
 
@@ -51,22 +51,57 @@ impl Component for Game {
         html! {
             <div class="game">
                 <h1>{ "Game theory: XY" }</h1>
-                { self.bank.0.iter().enumerate().map(|(i, actor)| html! {
-                    <div class="actor">
-                        <p>{ format!("Budget of {}: {}", std::char::from_u32(i as u32 + 65).unwrap(), actor.money) }</p>
-                        <select
-                            name="Choice"
-                            ref={ self.refs[i].clone() }
-                            id={ format!("actor_{}", i) }
-                            onchange={ link.callback(move |_| GameMsg::Choose(i)) }
-                        >
-                            <option value="X" selected=true>{ "X" }</option>
-                            <option value="Y">{ "Y" }</option>
-                        </select>
-                        <label for={ format!("actor_{}", i) }>{ "Choice" }</label>
-                    </div>
-                }).collect::<Html>() }
-                <button onclick={ link.callback(|_| GameMsg::Payout) }>{ "Payout" }</button>
+
+                <button id="payout" onclick={ link.callback(|_| GameMsg::Payout) }>{ "Payout" }</button>
+
+                <table>
+                    <tr>
+                        <th>{ "Actor" }</th>
+
+                        { self.bank.0.iter().enumerate().map(|(i, actor)| html! {
+                            <th>{ format!("{}", std::char::from_u32(i as u32 + 65).unwrap()) }</th>
+                        }).collect::<Html>() }
+                    </tr>
+
+                    <tr>
+                        <th>{ "Total" }</th>
+
+                        { self.bank.0.iter().enumerate().map(|(i, actor)| html! {
+                            <th>{ actor.money }</th>
+                        }).collect::<Html>() }
+                    </tr>
+
+                    <tr>
+                        <th>{ "Choice" }</th>
+
+                        { self.bank.0.iter().enumerate().map(|(i, actor)| html! {
+                            <th>        
+                                <select
+                                    name="Choice"
+                                    ref={ self.refs[i].clone() }
+                                    id={ format!("actor_{}", i) }
+                                    onchange={ link.callback(move |_| GameMsg::Choose(i)) }
+                                >
+                                    <option value="X" selected=true>{ "X" }</option>
+                                    <option value="Y">{ "Y" }</option>
+                                </select>
+                            </th>
+                        }).collect::<Html>() }
+                    </tr>
+
+                    { self.history.iter().enumerate().map(|(round, bank)| html! {
+                        <tr>
+                            <th>{ round + 1 }</th>
+
+                            { bank.0.iter().enumerate().map(|(i, actor)| html! {
+                                <th>{ match actor.choice {
+                                    game::Choice::X => "X",
+                                    game::Choice::Y => "Y",
+                                } }</th>
+                            }).collect::<Html>() }
+                        </tr>
+                    }).collect::<Html>() }
+                </table>
             </div>
         }
     }
