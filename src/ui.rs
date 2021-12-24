@@ -52,30 +52,46 @@ impl Component for Game {
             <div class="xy-game">
                 <h1>{ "Game theory: XY" }</h1>
 
+                <table id="table-rules">
+                    <tr><th>{ "Set" }</th><th>{ "X" }</th><th>{ "Y" }</th></tr>
+
+                    <tr><td>{ "XXXX" }</td><td>{ "-10" }</td><td>{ "–" }</td></tr>
+
+                    <tr><td>{ "XXXY" }</td><td>{ "+10" }</td><td>{ "-30" }</td></tr>
+
+                    <tr><td>{ "XXYY" }</td><td>{ "+20" }</td><td>{ "-20" }</td></tr>
+
+                    <tr><td>{ "XYYY" }</td><td>{ "+30" }</td><td>{ "-10" }</td></tr>
+                        
+                    <tr><td>{ "YYYY" }</td><td>{ "–" }</td><td>{ "+10" }</td></tr>
+                </table>
+
+                <p>{ "Each round, all `n` actors choose `X` or `Y`. Rules on the set of the choice of all actors decide, how much each actor earns or looses." }</p>
+
                 <button id="button-payout" onclick={ link.callback(|_| GameMsg::Payout) }>{ "Payout" }</button>
 
-                <table>
+                <table id="table-game">
                     <tr>
-                        <td>{ "Actor" }</td>
+                        <th>{ "Actor" }</th>
 
                         { self.bank.0.iter().enumerate().map(|(i, actor)| html! {
-                            <th class="th-actor">{ format!("{}", std::char::from_u32(i as u32 + 65).unwrap()) }</th>
+                            <td class="td-actor">{ format!("{}", std::char::from_u32(i as u32 + 65).unwrap()) }</td>
                         }).collect::<Html>() }
                     </tr>
 
                     <tr>
-                        <td>{ "Total" }</td>
+                        <th>{ "Total" }</th>
 
                         { self.bank.0.iter().enumerate().map(|(i, actor)| html! {
-                            <th class="th-money">{ actor.money }</th>
+                            <td class="td-money">{ actor.money }</td>
                         }).collect::<Html>() }
                     </tr>
 
                     <tr>
-                        <td>{ "Choice" }</td>
+                        <th>{ "Choice" }</th>
 
                         { self.bank.0.iter().enumerate().map(|(i, actor)| html! {
-                            <th>        
+                            <td>        
                                 <select
                                     ref={ self.refs[i].clone() }
                                     class="select-choice"
@@ -84,17 +100,17 @@ impl Component for Game {
                                     <option value="X" selected=true>{ "X" }</option>
                                     <option value="Y">{ "Y" }</option>
                                 </select>
-                            </th>
+                            </td>
                         }).collect::<Html>() }
                     </tr>
 
                     { self.history.iter().enumerate().map(|(round, bank)| html! {
                         <tr>
-                            <td class="td-round">{ round + 1 }</td>
+                            <th class="td-round">{ round + 1 }</th>
 
                             { bank.0.iter().enumerate().map(|(i, actor)| match actor.choice {
-                                game::Choice::X => html! { <th class="th-x">{ "X" }</th> },
-                                game::Choice::Y => html! { <th class="th-y">{ "Y" }</th> },
+                                game::Choice::X => html! { <td class="td-x">{ "X" }</td> },
+                                game::Choice::Y => html! { <td class="td-y">{ "Y" }</td> },
                             }).collect::<Html>() }
                         </tr>
                     }).rev().collect::<Html>() }

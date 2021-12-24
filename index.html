@@ -1,11 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <head>
+        <!-- set domain path -->
+        <base data-trunk-public-url />
 
-    <link data-trunk rel="scss" href="style.scss"/>
+        <!-- already includes content type in HTML5 -->
+        <meta charset="utf-8" />
+        <!-- better scaling viewport for mobile -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- switch to chrome on IE if possible -->
+        <meta http-equiv="X-UA-Compatible" content="chrome=1" />
 
-    <title>Yew App</title>
-  </head>
+        <!-- use wasm-opt to optimize for size; set "0" to disable -->
+        <link data-trunk rel="rust" data-wasm-opt="z" />
+
+        <title>Game theory: XY</title>
+        <meta name="description"
+            content="Each round, all `n` actors choose `X` or `Y`. Rules on the set of the choice of all actors decide, how much each actor earns or looses." />
+        <meta name="keywords" content="game" />
+        <meta name="author" content="m4dh0rs3 [schoeps.benedikt@gmail.com]" />
+
+        <!-- styles -->
+        <link data-trunk rel="scss" href="style.scss"/>
+    </head>
 </html>

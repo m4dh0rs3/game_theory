@@ -51,10 +51,13 @@ h1 {
     color: $syntax-keyword;
 }
 
-td {
+th {
     color: $ui-fg;
     background-color: $ui-bg;
 
+    font-weight: normal;
+
+    text-align: right;
 }
 
 table, tr {
@@ -63,21 +66,34 @@ table, tr {
 }
 
 td {
-    text-align: right;
+    font-weight: bold;
+    text-align: center;
 }
 
-.th-x {
+.td-x {
     color: $syntax-x;
 }
 
-.th-y {
+.td-y {
     color: $syntax-y;
 }
 
-.th-money {
+.td-money {
     color: $syntax-total;
 }
 
-.th-actor {
+.td-actor {
     color: $syntax-actor;
+}
+
+#table-rules {
+    th {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    td {
+        font-weight: normal;
+        text-align: center;
+    }
 }

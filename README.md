@@ -1,6 +1,6 @@
 # Game theory: XY
 
-Each round, all `n` actors choose `X` or `Y`. Rules on the set of the choice of all actors descide, how much each actor earns or looses.
+Each round, all `n` actors choose `X` or `Y`. Rules on the set of the choice of all actors decide, how much each actor earns or looses.
 
 ### Rules for `n = 4`
 
