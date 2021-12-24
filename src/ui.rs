@@ -49,37 +49,36 @@ impl Component for Game {
         let link = ctx.link();
 
         html! {
-            <div class="game">
+            <div class="xy-game">
                 <h1>{ "Game theory: XY" }</h1>
 
-                <button id="payout" onclick={ link.callback(|_| GameMsg::Payout) }>{ "Payout" }</button>
+                <button id="button-payout" onclick={ link.callback(|_| GameMsg::Payout) }>{ "Payout" }</button>
 
                 <table>
                     <tr>
-                        <th>{ "Actor" }</th>
+                        <td>{ "Actor" }</td>
 
                         { self.bank.0.iter().enumerate().map(|(i, actor)| html! {
-                            <th>{ format!("{}", std::char::from_u32(i as u32 + 65).unwrap()) }</th>
+                            <th class="th-actor">{ format!("{}", std::char::from_u32(i as u32 + 65).unwrap()) }</th>
                         }).collect::<Html>() }
                     </tr>
 
                     <tr>
-                        <th>{ "Total" }</th>
+                        <td>{ "Total" }</td>
 
                         { self.bank.0.iter().enumerate().map(|(i, actor)| html! {
-                            <th>{ actor.money }</th>
+                            <th class="th-money">{ actor.money }</th>
                         }).collect::<Html>() }
                     </tr>
 
                     <tr>
-                        <th>{ "Choice" }</th>
+                        <td>{ "Choice" }</td>
 
                         { self.bank.0.iter().enumerate().map(|(i, actor)| html! {
                             <th>        
                                 <select
-                                    name="Choice"
                                     ref={ self.refs[i].clone() }
-                                    id={ format!("actor_{}", i) }
+                                    class="select-choice"
                                     onchange={ link.callback(move |_| GameMsg::Choose(i)) }
                                 >
                                     <option value="X" selected=true>{ "X" }</option>
@@ -91,16 +90,14 @@ impl Component for Game {
 
                     { self.history.iter().enumerate().map(|(round, bank)| html! {
                         <tr>
-                            <th>{ round + 1 }</th>
+                            <td class="td-round">{ round + 1 }</td>
 
-                            { bank.0.iter().enumerate().map(|(i, actor)| html! {
-                                <th>{ match actor.choice {
-                                    game::Choice::X => "X",
-                                    game::Choice::Y => "Y",
-                                } }</th>
+                            { bank.0.iter().enumerate().map(|(i, actor)| match actor.choice {
+                                game::Choice::X => html! { <th class="th-x">{ "X" }</th> },
+                                game::Choice::Y => html! { <th class="th-y">{ "Y" }</th> },
                             }).collect::<Html>() }
                         </tr>
-                    }).collect::<Html>() }
+                    }).rev().collect::<Html>() }
                 </table>
             </div>
         }
