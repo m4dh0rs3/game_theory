@@ -1,9 +1,0 @@
-# Config for the WASM bundler [Trunk](https://trunkrs.dev)
-
-[build]
-
-target = "index.html" # the index HTML file to drive the bundling process
-# TODO: check if `--release` overwrites this
-release = true # build in release mode
-dist = "dist" # the output dir for all final assets
-public_url = "/" # the public URL from which assets are to be served
